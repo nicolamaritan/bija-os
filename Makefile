@@ -20,3 +20,7 @@ all: ./bin/boot.bin ./bin/kernel.bin
 
 clean:
 	rm bin/boot.bin
+	rm bin/kernel.bin
+	rm bin/os.bin
+	rm $(FILES)
+	rm build/kernelfull.o
