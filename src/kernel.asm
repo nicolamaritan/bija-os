@@ -1,7 +1,8 @@
 [BITS 32]
+global _start
 CODE_ENTRY_OFFSET equ 0x08
 DATA_ENTRY_OFFSET equ 0x10
-load32:
+_start:
     mov ax, DATA_ENTRY_OFFSET
     mov ds, ax
     mov es, ax
