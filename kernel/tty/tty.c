@@ -1,11 +1,9 @@
-#include "kernel.h"
-#include "idt/idt.h"
-#include <stdint.h>
-#include <stddef.h>
+#include "tty.h"
 
 uint16_t* terminal_buffer = 0;
 size_t terminal_row = 0;
 size_t terminal_column = 0;
+
 
 uint16_t vga_entry(char c, uint8_t color)
 {
@@ -52,29 +50,3 @@ void terminal_putchar(char c, uint8_t color)
         }
 	}
 } 
-
-
-size_t strlen(const char* str)
-{
-    size_t len;
-    for (len = 0; str[len]; len++);
-    return len;
-}
-
-void print(const char* str)
-{
-    size_t len = strlen(str);
-    for (size_t i = 0; i < len; i++)
-    {
-        terminal_putchar(str[i], 15);
-    }
-}
-
-extern void divide_by_zero();
-void kernel_main()
-{
-    terminal_initialize();
-    print("Hello World!\n");
-
-    idt_init();
-}
