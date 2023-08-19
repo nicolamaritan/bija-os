@@ -1,6 +1,5 @@
 [BITS 32]
 global _start
-global divide_by_zero
 
 extern kernel_main
 
@@ -24,7 +23,4 @@ _start:
     call kernel_main
     jmp $
 
-divide_by_zero:
-    mov eax, 0
-    div eax
 times 512-($ - $$) db 0

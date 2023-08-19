@@ -77,6 +77,4 @@ void kernel_main()
     print("Hello World!\n");
 
     idt_init();
-
-    divide_by_zero();   // Testing
 }
