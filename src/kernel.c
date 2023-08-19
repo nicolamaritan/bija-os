@@ -1,4 +1,5 @@
 #include "kernel.h"
+#include "idt/idt.h"
 #include <stdint.h>
 #include <stddef.h>
 
@@ -37,10 +38,7 @@ void terminal_putchar(char c, uint8_t color)
     if (c == '\n')
     {
         terminal_column = 0;
-        if (++ terminal_row == VGA_HEIGHT)
-        {
-            terminal_row = 0;
-        }
+        terminal_row ++;
         return;
     }
 
@@ -65,14 +63,20 @@ size_t strlen(const char* str)
 
 void print(const char* str)
 {
-    for (size_t i = 0; str[i]; i++)
+    size_t len = strlen(str);
+    for (size_t i = 0; i < len; i++)
     {
         terminal_putchar(str[i], 15);
     }
 }
 
+extern void divide_by_zero();
 void kernel_main()
 {
     terminal_initialize();
-    print("Hello World!");
+    print("Hello World!\n");
+
+    idt_init();
+
+    divide_by_zero();   // Testing
 }
