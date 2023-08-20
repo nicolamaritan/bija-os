@@ -1,6 +1,7 @@
 #include "kernel.h"
 #include "idt/idt.h"
 #include "tty/tty.h"
+#include "io/io.h"
 #include <stdint.h>
 #include <stddef.h>
 
@@ -26,4 +27,6 @@ void kernel_main()
     print("Hello World!\n");
 
     idt_init();
+
+    outb(0x60, 0xFF);
 }
