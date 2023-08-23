@@ -3,6 +3,7 @@ global insb
 global insw
 global outb
 global outw
+global io_wait
 insb:
     push ebp
     mov ebp, esp
@@ -45,6 +46,17 @@ outw:
     mov edx, [ebp+8]
     mov eax, [ebp+12]
     out dx, ax
+
+    pop ebp
+    ret
+
+io_wait:
+    push ebp
+    mov ebp, esp
+
+    mov dx, 0x80
+    mov al, 0x00
+    out dx, al
 
     pop ebp
     ret

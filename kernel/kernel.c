@@ -2,6 +2,7 @@
 #include "idt/idt.h"
 #include "tty/tty.h"
 #include "io/io.h"
+#include "pic/pic.h"
 #include <stdint.h>
 #include <stddef.h>
 
@@ -27,6 +28,6 @@ void kernel_main()
     print("Hello World!\n");
 
     idt_init();
+    PIC_remap(0x20, 0x28);
 
-    outb(0x60, 0xFF);
 }
