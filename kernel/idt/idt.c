@@ -2,15 +2,23 @@
 #include "config.h"
 #include "memory/memory.h"
 #include "kernel.h"
+#include "io/io.h"
 
 struct idt_descriptor idt[TOTAL_INTERRUPTS];
 struct idtr_descriptor idtr;
 
 extern void idt_load(struct idtr_descriptor* ptr);
+extern void int21h();
 
 void idt_zero()
 {
     print("Divide by zero error.\n");
+    outb(0x20, 0x20);   // acknowledge
+}
+
+void int21h_handler()
+{
+    print("Keyboard press.\n");
 }
 
 void idt_set(size_t interrupt_number, void* address)
@@ -30,5 +38,6 @@ void idt_init()
     idtr.base = (uint32_t) idt;     // Casting the address pointer to 32 bit integer
 
     idt_set(0, idt_zero);
+    idt_set(0x21, int21h);
     idt_load(&idtr);
 }
