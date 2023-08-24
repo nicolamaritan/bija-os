@@ -3,6 +3,7 @@ BITS 16
 
 CODE_ENTRY_OFFSET equ gdt_code - gdt_start
 DATA_ENTRY_OFFSET equ gdt_data - gdt_start
+KERNEL_LOADING_ADDRESS equ 0x100000
 
 ; Needed to boot into real hardware
 _start:
@@ -67,9 +68,9 @@ gdt_descriptor:
 load32:
     mov eax, 1
     mov ecx, 100
-    mov edi, 0x100000
+    mov edi, KERNEL_LOADING_ADDRESS
     call ata_lba_read
-    jmp CODE_ENTRY_OFFSET:0x100000
+    jmp CODE_ENTRY_OFFSET:KERNEL_LOADING_ADDRESS
 
 ;=============================================================================
 ; ATA read sectors (LBA mode) 
