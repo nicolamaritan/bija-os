@@ -30,4 +30,6 @@ void kernel_main()
     idt_init();
     PIC_remap(0x20, 0x28);
 
+    enable_interrupts();
+
 }
