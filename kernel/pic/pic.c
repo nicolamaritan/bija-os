@@ -1,7 +1,7 @@
 #include "pic.h"
 #include "io/io.h"
 
-void PIC_sendEOI(unsigned char irq)
+void pic_send_EOI(unsigned char irq)
 {
 	if(irq >= 8)
 		outb(PIC2_COMMAND,PIC_EOI);
@@ -9,7 +9,7 @@ void PIC_sendEOI(unsigned char irq)
 	outb(PIC1_COMMAND,PIC_EOI);
 }
 
-void PIC_remap(int offset1, int offset2)
+void pic_remap(int offset1, int offset2)
 {
 	unsigned char a1, a2;
  

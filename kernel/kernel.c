@@ -28,6 +28,7 @@ void kernel_main()
     print("Hello World!\n");
 
     idt_init();
-    PIC_remap(0x20, 0x28);
+    pic_remap(OFFSET_MASTER_PIC, OFFSET_SLAVE_PIC);
 
+    enable_interrupts();
 }
