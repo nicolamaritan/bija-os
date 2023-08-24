@@ -1,9 +1,6 @@
 #ifndef PIC_H
 #define PIC_H
 
-#define OFFSET_MASTER_PIC	0x20
-#define OFFSET_SLAVE_PIC	0x28
-
 #define PIC1		0x20		/* IO base address for master PIC */
 #define PIC2		0xA0		/* IO base address for slave PIC */
 #define PIC1_COMMAND	PIC1
@@ -11,11 +8,15 @@
 #define PIC2_COMMAND	PIC2
 #define PIC2_DATA	(PIC2+1)
 #define PIC_EOI		0x20		/* End-of-interrupt command code */
- 
+
+/**
+ * Sends an End of Interrupt (EOI) signal to the Programmable Interrupt Controllers (PICs)
+ * to acknowledge the completion of handling a specific interrupt request.
+ *
+ * @param irq The interrupt request number for which to send the EOI.
+ */
 void pic_send_EOI(unsigned char irq);
-/* reinitialize the PIC controllers, giving them specified vector offsets
-   rather than 8h and 70h, as configured by default */
- 
+
 #define ICW1_ICW4	0x01		/* Indicates that ICW4 will be present */
 #define ICW1_SINGLE	0x02		/* Single (cascade) mode */
 #define ICW1_INTERVAL4	0x04		/* Call address interval 4 (8) */
@@ -28,12 +29,17 @@ void pic_send_EOI(unsigned char irq);
 #define ICW4_BUF_MASTER	0x0C		/* Buffered mode/master */
 #define ICW4_SFNM	0x10		/* Special fully nested (not) */
  
-/*
-arguments:
-	offset1 - vector offset for master PIC
-		vectors on the master become offset1..offset1+7
-	offset2 - same for slave PIC: offset2..offset2+7
-*/
+/**
+ * Remaps the Programmable Interrupt Controllers (PICs) in order to change their interrupt vector offsets.
+ * Defaults are 0x08 and 0x70.
+ * This function initializes the PICs to properly handle interrupt requests.
+ *
+ * @param offset1 The vector offset for the master PIC.
+ * @param offset2 The vector offset for the slave PIC.
+ */
 void pic_remap(int offset1, int offset2);
+
+#define OFFSET_MASTER_PIC	0x20
+#define OFFSET_SLAVE_PIC	0x28
 
 #endif
