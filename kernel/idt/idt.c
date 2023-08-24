@@ -20,6 +20,7 @@ void idt_zero()
 void int21h_handler()
 {
     print("Keyboard press.\n");
+    outb(0x20, 0x20);   // acknowledge
 }
 
 void no_interrupt_handler()

@@ -1,6 +1,9 @@
 #ifndef PIC_H
 #define PIC_H
 
+#define OFFSET_MASTER_PIC	0x20
+#define OFFSET_SLAVE_PIC	0x28
+
 #define PIC1		0x20		/* IO base address for master PIC */
 #define PIC2		0xA0		/* IO base address for slave PIC */
 #define PIC1_COMMAND	PIC1
@@ -9,7 +12,7 @@
 #define PIC2_DATA	(PIC2+1)
 #define PIC_EOI		0x20		/* End-of-interrupt command code */
  
-void PIC_sendEOI(unsigned char irq);
+void pic_send_EOI(unsigned char irq);
 /* reinitialize the PIC controllers, giving them specified vector offsets
    rather than 8h and 70h, as configured by default */
  
@@ -31,6 +34,6 @@ arguments:
 		vectors on the master become offset1..offset1+7
 	offset2 - same for slave PIC: offset2..offset2+7
 */
-void PIC_remap(int offset1, int offset2);
+void pic_remap(int offset1, int offset2);
 
 #endif
