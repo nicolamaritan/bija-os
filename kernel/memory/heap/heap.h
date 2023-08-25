@@ -21,7 +21,9 @@ struct heap_table
 struct heap
 {
     struct heap_table* table;
-    void* saddr;
+    void* start_address;
 };
+
+int heap_create(struct heap* heap, void* ptr, void* end, struct heap_table* table);
 
 #endif
