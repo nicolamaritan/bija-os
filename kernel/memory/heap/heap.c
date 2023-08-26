@@ -20,12 +20,6 @@ static int heap_validate_table(void* ptr, void* end, struct heap_table* table)
     return 0;
 }
 
-static void heap_init_table(struct heap_table* table)
-{
-    size_t table_size = sizeof(HEAP_BLOCK_TABLE_ENTRY) * table->entries_number;
-    memset(table->entries, HEAP_BLOCK_TABLE_ENTRY_FREE, table_size);
-}
-
 static int heap_get_start_block(struct heap* heap, size_t blocks_number)
 {
     struct heap_table* table = heap->table;
@@ -132,7 +126,9 @@ int heap_create(struct heap* heap, void* ptr, void* end, struct heap_table* tabl
         return res;
     }
 
-    heap_init_table(table);
+    // Initialize table
+    size_t table_size = sizeof(HEAP_BLOCK_TABLE_ENTRY) * table->entries_number;
+    memset(table->entries, HEAP_BLOCK_TABLE_ENTRY_FREE, table_size);
 
     return 0;
 }
