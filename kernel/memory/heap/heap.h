@@ -55,6 +55,6 @@ int heap_create(struct heap* heap, void* ptr, void* end, struct heap_table* tabl
  * @return Pointer to the allocated memory, or NULL if allocation fails.
  */
 void* heap_malloc(struct heap* heap, size_t size);
-void* heap_free(struct heap* heap, size_t size);
+void heap_free(struct heap* heap, void* ptr);
 
 #endif

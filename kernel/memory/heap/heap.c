@@ -67,6 +67,20 @@ static void heap_mark_taken_blocks(struct heap* heap, size_t start_block, size_t
     table->entries[start_block + blocks_number - 1] = HEAP_BLOCK_TABLE_ENTRY_TAKEN;
 }
 
+static void heap_mark_free_blocks(struct heap* heap, size_t start_block)
+{
+    struct heap_table* table = heap->table;
+    for (size_t i = start_block; i < table->entries_number; i++)
+    {
+        HEAP_BLOCK_TABLE_ENTRY old_entry = table->entries[i];
+        table->entries[i] = HEAP_BLOCK_TABLE_ENTRY_FREE;
+        if (!(old_entry & HEAP_BLOCK_HAS_NEXT))
+        {
+            break;
+        }
+    }
+}
+
 static uint32_t heap_block_align(uint32_t val)
 {
     if (val % HEAP_BLOCK_SIZE == 0)
@@ -78,9 +92,14 @@ static uint32_t heap_block_align(uint32_t val)
 }
 
 
-static void* heap_block_to_address(struct heap* heap, size_t start_block)
+static void* heap_block_to_address(struct heap* heap, size_t block)
 {
-    return heap->start_address + (start_block * HEAP_BLOCK_SIZE);
+    return heap->start_address + (block * HEAP_BLOCK_SIZE);
+}
+
+static size_t heap_address_to_block(struct heap* heap, void* address)
+{
+    return ((size_t)(address - heap->start_address)) / HEAP_BLOCK_SIZE;
 }
 
 static void* heap_malloc_blocks(struct heap* heap, size_t blocks_number)
@@ -103,9 +122,10 @@ void* heap_malloc(struct heap* heap, size_t size)
     return heap_malloc_blocks(heap, blocks_to_allocate);
 }
 
-void* heap_free(struct heap* heap, size_t size)
+void heap_free(struct heap* heap, void* ptr)
 {
-    return NULL;
+    size_t block = heap_address_to_block(heap, ptr);
+    heap_mark_free_blocks(heap, block);
 }
 
 int heap_create(struct heap* heap, void* ptr, void* end, struct heap_table* table)

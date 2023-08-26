@@ -25,3 +25,8 @@ void* kernel_malloc(size_t size)
 {
     return heap_malloc(&kernel_heap, size);
 }
+
+void kernel_free(void* ptr)
+{
+    return heap_free(&kernel_heap, ptr);
+}

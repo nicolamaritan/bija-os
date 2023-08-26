@@ -33,8 +33,4 @@ void kernel_main()
     enable_interrupts();
 
     kernel_heap_init();
-    void* ptr1 = kernel_malloc(50);
-    void* ptr2 = kernel_malloc(10000);
-    void* ptr3 = kernel_malloc(23);
-    if (ptr1 || ptr2 || ptr3);
 }
