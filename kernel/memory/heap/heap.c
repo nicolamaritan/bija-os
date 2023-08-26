@@ -10,32 +10,30 @@ static int heap_validate_alignment(void* ptr)
 
 static int heap_validate_table(void* ptr, void* end, struct heap_table* table)
 {
-    int res = 0;
     size_t table_size = (size_t)(end - ptr);
     size_t table_entries_number = table_size / HEAP_BLOCK_SIZE;
     if (table->entries_number != table_entries_number)
     {
-        res = -EINVARG;
-        return res;
+        return -EINVARG;
     }
 
-    return res;
+    return 0;
 }
 
-static void heap_init_table(void* ptr, struct heap_table* table)
+static void heap_init_table(struct heap_table* table)
 {
     size_t table_size = sizeof(HEAP_BLOCK_TABLE_ENTRY) * table->entries_number;
-    memset(ptr, HEAP_BLOCK_TABLE_ENTRY_FREE, table_size);
+    memset(table->entries, HEAP_BLOCK_TABLE_ENTRY_FREE, table_size);
 }
 
 static int heap_get_start_block(struct heap* heap, size_t blocks_number)
 {
     struct heap_table* table = heap->table;
     size_t count = 0;
-    size_t start_block = -1;
+    int start_block = -1;
     for (size_t i = 0; i < table->entries_number; i++)
     {
-        if (table->entries[i] == HEAP_BLOCK_TABLE_ENTRY_FREE)
+        if (table->entries[i] != HEAP_BLOCK_TABLE_ENTRY_FREE)
         {
             count = 0;
             start_block = -1;
@@ -50,7 +48,7 @@ static int heap_get_start_block(struct heap* heap, size_t blocks_number)
         }
     }
     
-    return start_block > 0 ? start_block : -ENOMEM; 
+    return start_block >= 0 ? start_block : -ENOMEM; 
 }
 
 static void heap_mark_taken_blocks(struct heap* heap, size_t start_block, size_t blocks_number)
@@ -94,7 +92,7 @@ static void* heap_block_to_address(struct heap* heap, size_t start_block)
 static void* heap_malloc_blocks(struct heap* heap, size_t blocks_number)
 {
     void* address = 0;
-    size_t start_block = heap_get_start_block(heap, blocks_number);
+    int start_block = heap_get_start_block(heap, blocks_number);
     if (start_block < 0)
     {
         return NULL;
@@ -121,20 +119,20 @@ int heap_create(struct heap* heap, void* ptr, void* end, struct heap_table* tabl
     int res = 0;
     if (!heap_validate_alignment(ptr) || !heap_validate_alignment(end))
     {
-        res = -EINVARG;
-        return res;
+        return -EINVARG;
     }
 
     memset(heap, 0, sizeof(struct heap));
     heap->start_address = ptr;
     heap->table = table;
 
-    if (heap_validate_table(ptr, end, table) < 0)
+    res = heap_validate_table(ptr, end, table);
+    if (res < 0)
     {
         return res;
     }
 
-    heap_init_table(ptr, table);
+    heap_init_table(table);
 
-    return res;
+    return 0;
 }

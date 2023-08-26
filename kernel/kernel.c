@@ -3,6 +3,7 @@
 #include "tty/tty.h"
 #include "io/io.h"
 #include "pic/pic.h"
+#include "memory/heap/kernel_heap.h"
 #include <stdint.h>
 #include <stddef.h>
 
@@ -29,6 +30,11 @@ void kernel_main()
 
     idt_init();
     pic_remap(OFFSET_MASTER_PIC, OFFSET_SLAVE_PIC);
-
     enable_interrupts();
+
+    kernel_heap_init();
+    void* ptr1 = kernel_malloc(50);
+    void* ptr2 = kernel_malloc(10000);
+    void* ptr3 = kernel_malloc(23);
+    if (ptr1 || ptr2 || ptr3);
 }

@@ -20,3 +20,8 @@ void kernel_heap_init()
     }
 
 }
+
+void* kernel_malloc(size_t size)
+{
+    return heap_malloc(&kernel_heap, size);
+}
