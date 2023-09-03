@@ -55,6 +55,22 @@ int heap_create(struct heap* heap, void* ptr, void* end, struct heap_table* tabl
  * @return Pointer to the allocated memory, or NULL if allocation fails.
  */
 void* heap_malloc(struct heap* heap, size_t size);
+
+/**
+ * @brief Frees allocated memory.
+ *
+ * This function deallocates a previously allocated memory block within the given heap.
+ *
+ * @param[in] heap A pointer to the heap from which to free the memory.
+ * @param[in] ptr A pointer to the memory block to be freed.
+ *
+ * @note It is crucial to pass a valid `heap` pointer that was used for the allocation
+ * of the `ptr` parameter.
+ *
+ * @warning Attempting to free memory that has already been freed or passing an invalid
+ * `heap` pointer may result in undefined behavior.
+ *
+ */
 void heap_free(struct heap* heap, void* ptr);
 
 #endif

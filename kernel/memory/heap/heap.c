@@ -3,11 +3,25 @@
 #include "status.h"
 #include "memory/memory.h"
 
+/**
+ * @brief Validates the alignment of a pointer within the heap.
+ *
+ * @param ptr Pointer to validate.
+ * @return 1 if the pointer is correctly aligned, 0 otherwise.
+ */
 static int heap_validate_alignment(void* ptr)
 {
     return ((size_t)ptr % HEAP_BLOCK_SIZE) == 0;
 }
 
+/**
+ * @brief Validates the heap table and its entries.
+ *
+ * @param ptr Pointer to the start of the heap.
+ * @param end Pointer to the end of the heap.
+ * @param table Pointer to the heap table.
+ * @return 0 if the table is valid, -EINVARG if it's not.
+ */
 static int heap_validate_table(void* ptr, void* end, struct heap_table* table)
 {
     size_t table_size = (size_t)(end - ptr);
@@ -20,6 +34,13 @@ static int heap_validate_table(void* ptr, void* end, struct heap_table* table)
     return 0;
 }
 
+/**
+ * @brief Finds the starting block for allocating a contiguous sequence of blocks in the heap.
+ *
+ * @param heap Pointer to the heap.
+ * @param blocks_number Number of blocks to allocate.
+ * @return The index of the starting block if available, or ENOMEM if there's not enough memory.
+ */
 static int heap_get_start_block(struct heap* heap, size_t blocks_number)
 {
     struct heap_table* table = heap->table;
@@ -45,6 +66,13 @@ static int heap_get_start_block(struct heap* heap, size_t blocks_number)
     return start_block >= 0 ? start_block : -ENOMEM; 
 }
 
+/**
+ * @brief Marks a sequence of blocks in the heap as taken.
+ *
+ * @param heap Pointer to the heap.
+ * @param start_block Index of the starting block.
+ * @param blocks_number Number of blocks to mark.
+ */
 static void heap_mark_taken_blocks(struct heap* heap, size_t start_block, size_t blocks_number)
 {
     struct heap_table* table = heap->table;
@@ -67,6 +95,12 @@ static void heap_mark_taken_blocks(struct heap* heap, size_t start_block, size_t
     table->entries[start_block + blocks_number - 1] = HEAP_BLOCK_TABLE_ENTRY_TAKEN;
 }
 
+/**
+ * @brief Marks a sequence of blocks in the heap as free.
+ *
+ * @param heap Pointer to the heap.
+ * @param start_block Index of the starting block.
+ */
 static void heap_mark_free_blocks(struct heap* heap, size_t start_block)
 {
     struct heap_table* table = heap->table;
@@ -81,6 +115,12 @@ static void heap_mark_free_blocks(struct heap* heap, size_t start_block)
     }
 }
 
+/**
+ * @brief Aligns a value to the nearest multiple of HEAP_BLOCK_SIZE.
+ *
+ * @param val Value to be aligned.
+ * @return The aligned value.
+ */
 static uint32_t heap_block_align(uint32_t val)
 {
     if (val % HEAP_BLOCK_SIZE == 0)
@@ -91,17 +131,37 @@ static uint32_t heap_block_align(uint32_t val)
     return (val / HEAP_BLOCK_SIZE + 1) * HEAP_BLOCK_SIZE;
 }
 
-
+/**
+ * @brief Converts a block index to its corresponding address within the heap.
+ *
+ * @param heap Pointer to the heap.
+ * @param block Block index.
+ * @return The address corresponding to the block.
+ */
 static void* heap_block_to_address(struct heap* heap, size_t block)
 {
     return heap->start_address + (block * HEAP_BLOCK_SIZE);
 }
 
+/**
+ * @brief Converts an address to the corresponding block index within the heap.
+ *
+ * @param heap Pointer to the heap.
+ * @param address Address to convert.
+ * @return The block index corresponding to the address.
+ */
 static size_t heap_address_to_block(struct heap* heap, void* address)
 {
     return ((size_t)(address - heap->start_address)) / HEAP_BLOCK_SIZE;
 }
 
+/**
+ * @brief Allocates a contiguous sequence of blocks in the heap.
+ *
+ * @param heap Pointer to the heap.
+ * @param blocks_number Number of blocks to allocate.
+ * @return A pointer to the first block if successful, or NULL if there's not enough memory.
+ */
 static void* heap_malloc_blocks(struct heap* heap, size_t blocks_number)
 {
     void* address = 0;
