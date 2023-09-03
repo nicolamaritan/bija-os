@@ -16,15 +16,8 @@
 
 #define PAGING_PAGE_SIZE 4096
 
-typedef uint32_t page_directory;
-
-struct paging_4gb_chunk
-{
-    page_directory* directory;  // 4gb of addressable memory
-};
-
-struct paging_4gb_chunk* paging_init_chunk(uint8_t flags);
+uint32_t* paging_get_directory(uint8_t flags);
 void paging_enable_paging();
-void paging_switch_current_directory(page_directory* directory);
+void paging_switch_current_directory(uint32_t* directory);
 
 #endif
