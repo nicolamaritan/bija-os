@@ -5,10 +5,12 @@ export PATH="$PREFIX/bin:$PATH"
 
 mkdir bin
 
+mkdir build
 mkdir build/idt
 mkdir build/io
 mkdir build/memory
 mkdir build/pic
 mkdir build/tty
+mkdir build/memory/heap
 
 make all
