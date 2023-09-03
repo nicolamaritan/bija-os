@@ -24,7 +24,7 @@ void print(const char* str)
     }
 }
 
-static page_directory* kernel_directory;
+static uint32_t* kernel_directory;
 
 void kernel_main()
 {
@@ -34,7 +34,7 @@ void kernel_main()
     kernel_heap_init();
     print("Kernel Heap initialized.\n");
 
-    kernel_directory = paging_get_directory(PAGING_IS_WRITABLE | PAGING_IS_PRESENT);
+    kernel_directory = paging_make_directory(PAGING_IS_WRITABLE | PAGING_IS_PRESENT);
     paging_switch_current_directory(kernel_directory);
     paging_enable_paging();
     print("Paging enabled. Switched to Kernel page directory.\n");

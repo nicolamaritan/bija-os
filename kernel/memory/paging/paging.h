@@ -16,8 +16,27 @@
 
 #define PAGING_PAGE_SIZE 4096
 
-uint32_t* paging_get_directory(uint8_t flags);
+/**
+ * @brief Creates a new page directory with page tables and returns a pointer to it.
+ *
+ * @param flags Flags to apply to the directory and table entries.
+ * @return A pointer to the newly created page directory if successful, or NULL if there's not enough memory.
+ */
+uint32_t* paging_make_directory(uint8_t flags);
+
+/**
+ * @brief Enables the paging.
+ * 
+ * @warning Invoking `paging_switch_current_directory` with a valid page directory before this method
+ * is required to avoid kernel panics.
+*/
 void paging_enable_paging();
+
+/**
+ * @brief Switches the current page directory to the specified directory.
+ *
+ * @param directory Pointer to the new page directory to switch to.
+ */
 void paging_switch_current_directory(uint32_t* directory);
 
 #endif
