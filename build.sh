@@ -12,5 +12,6 @@ mkdir build/memory
 mkdir build/pic
 mkdir build/tty
 mkdir build/memory/heap
+mkdir build/memory/paging
 
 make all

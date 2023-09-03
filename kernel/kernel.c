@@ -3,6 +3,7 @@
 #include "tty/tty.h"
 #include "io/io.h"
 #include "pic/pic.h"
+#include "memory/paging/paging.h"
 #include "memory/heap/kernel_heap.h"
 #include <stdint.h>
 #include <stddef.h>
@@ -23,14 +24,27 @@ void print(const char* str)
     }
 }
 
+static struct paging_4gb_chunk* kernel_chunk;
+
 void kernel_main()
 {
     terminal_initialize();
-    print("Hello World!\n");
+    print("Terminal initialized.\n");
+
+    kernel_heap_init();
+    print("Kernel Heap initialized.\n");
+
+    kernel_chunk = paging_init_chunk(PAGING_IS_WRITABLE | PAGING_IS_PRESENT);
+    paging_switch_current_directory(kernel_chunk->directory);
+    paging_enable_paging();
+    print("Paging enabled. Switched to Kernel page directory.\n");
 
     idt_init();
     pic_remap(OFFSET_MASTER_PIC, OFFSET_SLAVE_PIC);
-    enable_interrupts();
+    print("IDT initialized. PIC remapped.\n");
 
-    kernel_heap_init();
+    enable_interrupts();
+    print("Interrupts enabled.\n");
+
+
 }

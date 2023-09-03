@@ -3,6 +3,7 @@
 #include "config.h"
 #include "tty/tty.h"
 #include "kernel.h"
+#include "memory/memory.h"
 
 struct heap kernel_heap;
 struct heap_table kernel_heap_table;
@@ -29,4 +30,14 @@ void* kernel_malloc(size_t size)
 void kernel_free(void* ptr)
 {
     return heap_free(&kernel_heap, ptr);
+}
+
+void* kernel_zalloc(size_t size)
+{
+    void* ptr = kernel_malloc(size);
+    if (!ptr)
+        return NULL;
+    memset(ptr, 0, size);
+    return ptr;
+    
 }
