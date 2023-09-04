@@ -39,4 +39,8 @@ void paging_enable_paging();
  */
 void paging_switch_current_directory(uint32_t* directory);
 
+int paging_is_aligned(void* addr);
+
+int paging_set_page_table_entry(uint32_t* directory, void* virtual_address, uint32_t value);
+
 #endif

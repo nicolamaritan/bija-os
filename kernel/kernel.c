@@ -39,6 +39,16 @@ void kernel_main()
     paging_enable_paging();
     print("Paging enabled. Switched to Kernel page directory.\n");
 
+    // Testing paging - Shows AB twice
+    char* ptr = kernel_zalloc(4096);
+    paging_set_page_table_entry(kernel_directory, (void*)0x1000, (uint32_t)ptr | PAGING_IS_PRESENT | PAGING_IS_WRITABLE);
+    char* ptr2 = (char*)0x1000;
+    ptr2[0] = 'A';
+    ptr2[1] = 'B';
+    print(ptr2);
+    print(ptr);
+    print("\n");
+
     idt_init();
     pic_remap(OFFSET_MASTER_PIC, OFFSET_SLAVE_PIC);
     print("IDT initialized. PIC remapped.\n");
