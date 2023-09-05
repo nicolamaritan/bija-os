@@ -3,6 +3,7 @@
 #include "tty/tty.h"
 #include "io/io.h"
 #include "pic/pic.h"
+#include "memory/paging/paging.h"
 #include "memory/heap/kernel_heap.h"
 #include <stdint.h>
 #include <stddef.h>
@@ -23,14 +24,37 @@ void print(const char* str)
     }
 }
 
+static uint32_t* kernel_directory;
+
 void kernel_main()
 {
     terminal_initialize();
-    print("Hello World!\n");
+    print("Terminal initialized.\n");
+
+    kernel_heap_init();
+    print("Kernel Heap initialized.\n");
+
+    kernel_directory = paging_make_directory(PAGING_IS_WRITABLE | PAGING_IS_PRESENT);
+    paging_switch_current_directory(kernel_directory);
+    paging_enable_paging();
+    print("Paging enabled. Switched to Kernel page directory.\n");
+
+    // Testing paging - Shows AB twice
+    char* ptr = kernel_zalloc(4096);
+    paging_set_page_table_entry(kernel_directory, (void*)0x1000, (uint32_t)ptr | PAGING_IS_PRESENT | PAGING_IS_WRITABLE);
+    char* ptr2 = (char*)0x1000;
+    ptr2[0] = 'A';
+    ptr2[1] = 'B';
+    print(ptr2);
+    print(ptr);
+    print("\n");
 
     idt_init();
     pic_remap(OFFSET_MASTER_PIC, OFFSET_SLAVE_PIC);
-    enable_interrupts();
+    print("IDT initialized. PIC remapped.\n");
 
-    kernel_heap_init();
+    enable_interrupts();
+    print("Interrupts enabled.\n");
+
+
 }

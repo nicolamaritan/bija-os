@@ -26,4 +26,5 @@ void* kernel_malloc(size_t size);
  */
 void kernel_free(void* ptr);
 
+void* kernel_zalloc(size_t size);
 #endif
