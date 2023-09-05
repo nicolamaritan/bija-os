@@ -39,7 +39,7 @@ int paging_is_aligned(void* addr)
     return ((uint32_t)addr % PAGING_PAGE_SIZE) == 0;
 }
 
-int paging_get_table_index(void* virtual_address, size_t* table_index_out)
+static int paging_get_table_index(void* virtual_address, size_t* table_index_out)
 {
     if (!paging_is_aligned(virtual_address))
     {
@@ -49,7 +49,7 @@ int paging_get_table_index(void* virtual_address, size_t* table_index_out)
     return 0;
 }
 
-int paging_get_page_index(void* virtual_address, size_t* page_index_out)
+static int paging_get_page_index(void* virtual_address, size_t* page_index_out)
 {
     if (!paging_is_aligned(virtual_address))
     {

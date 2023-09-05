@@ -39,8 +39,24 @@ void paging_enable_paging();
  */
 void paging_switch_current_directory(uint32_t* directory);
 
+/**
+ * @brief Checks if a given address is aligned to a page boundary.
+ *
+ * @param addr Pointer to the address to be checked.
+ * @return 0 if and only if the address is not aligned.
+ */
 int paging_is_aligned(void* addr);
 
+/**
+ * @brief Gets the table index for a given virtual address.
+ *
+ * This function calculates the table index for a given virtual address based on
+ * the page size and the number of pages per table.
+ *
+ * @param virtual_address Pointer to the virtual address.
+ * @param table_index_out Pointer to a size_t variable to store the table index.
+ * @return 0 on success, -EINVARG if the address is not aligned.
+ */
 int paging_set_page_table_entry(uint32_t* directory, void* virtual_address, uint32_t value);
 
 #endif
