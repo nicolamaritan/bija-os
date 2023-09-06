@@ -45,7 +45,9 @@ void kernel_main()
     print("IDT initialized. PIC remapped.\n");
 
     char buf[512];
-    disk_read_sector(0, 1, buf);
+    struct disk* disk = disk_get(0);
+    disk_init();
+    disk_read_block(disk, 0, 1, buf);
 
     enable_interrupts();
     print("Interrupts enabled.\n");

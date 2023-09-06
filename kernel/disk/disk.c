@@ -1,8 +1,13 @@
 #include "disk.h"
 #include "io/io.h"
+#include "memory/memory.h"
+#include "config.h"
+#include "status.h"
 
 #define MASTER_DRIVE 0xE0
 #define WORDS_PER_SECTOR 256
+
+static struct disk primary_disk;
 
 int disk_read_sector(size_t lba, size_t n, void* buffer)
 {
@@ -28,4 +33,27 @@ int disk_read_sector(size_t lba, size_t n, void* buffer)
     }
 
     return 0;
+}
+
+void disk_init()
+{
+    memset(&primary_disk, 0, sizeof(primary_disk));
+    primary_disk.type = DISK_TYPE_REAL;
+    primary_disk.sector_size = DISK_SECTOR_SIZE;
+}
+
+struct disk* disk_get(size_t index)
+{
+    if (index != 0)
+        return NULL;
+    return &primary_disk;
+}
+
+int disk_read_block(struct disk* disk, size_t lba, size_t n, void* buffer)
+{
+    if (disk != &primary_disk)
+    {
+        return -EIO;
+    }
+    return disk_read_sector(lba, n, buffer);
 }
