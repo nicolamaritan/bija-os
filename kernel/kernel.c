@@ -45,8 +45,10 @@ void kernel_main()
     print("IDT initialized. PIC remapped.\n");
 
     char buf[512];
+    for (size_t i; i<512; i++){buf[i] = i;}
     struct disk* disk = disk_get(0);
     disk_init();
+    disk_write_block(disk, 0, 1, buf);
     disk_read_block(disk, 0, 1, buf);
 
     enable_interrupts();

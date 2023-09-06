@@ -33,6 +33,8 @@ struct disk
  */
 int disk_read_block(struct disk* disk, size_t lba, size_t n, void* buffer);
 
+int disk_write_block(struct disk* disk, size_t lba, size_t n, void* buffer);
+
 /**
  * @brief Initializes the disks in the system.
 */
