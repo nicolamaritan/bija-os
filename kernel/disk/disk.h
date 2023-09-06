@@ -33,8 +33,16 @@ struct disk
  */
 int disk_read_block(struct disk* disk, size_t lba, size_t n, void* buffer);
 
+/**
+ * @brief Initializes the disks in the system.
+*/
 void disk_init();
 
+/**
+ * @brief Returns the pointer of the disk specified by the given index.
+ * 
+ * @return The pointer of the specified index, NULL if the index is invalid.
+*/
 struct disk* disk_get(size_t index);
 
 #endif
