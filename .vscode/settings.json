@@ -2,6 +2,7 @@
     "files.associations": {
         "stdint.h": "c",
         "config.h": "c",
-        "status.h": "c"
+        "status.h": "c",
+        "disk.h": "c"
     }
 }

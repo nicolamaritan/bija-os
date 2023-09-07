@@ -1,11 +1,11 @@
-#include "kernel.h"
-#include "idt/idt.h"
-#include "tty/tty.h"
-#include "io/io.h"
-#include "pic/pic.h"
-#include "memory/paging/paging.h"
-#include "memory/heap/kernel_heap.h"
-#include "disk/disk.h"
+#include <kernel/kernel.h>
+#include <kernel/idt.h>
+#include <kernel/tty.h>
+#include <kernel/io.h>
+#include <kernel/pic.h>
+#include <kernel/memory/paging/paging.h>
+#include <kernel/memory/heap/kernel_heap.h>
+#include <kernel/disk.h>
 #include <stdint.h>
 #include <stddef.h>
 

@@ -1,6 +1,6 @@
-#include "paging.h"
-#include "memory/heap/kernel_heap.h"
-#include "status.h"
+#include <kernel/memory/paging/paging.h>
+#include <kernel/memory/heap/kernel_heap.h>
+#include <kernel/status.h>
 
 /**
  * Load the page directory pointed by `directory`.

@@ -1,4 +1,4 @@
-#include "tty.h"
+#include <kernel/tty.h>
 
 uint16_t* terminal_buffer = 0;
 size_t terminal_row = 0;

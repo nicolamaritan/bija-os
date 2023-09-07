@@ -1,8 +1,8 @@
-#include "disk.h"
-#include "io/io.h"
-#include "memory/memory.h"
-#include "config.h"
-#include "status.h"
+#include <kernel/disk.h>
+#include <kernel/io.h>
+#include <kernel/memory/memory.h>
+#include <kernel/config.h>
+#include <kernel/status.h>
 
 #define MASTER_DRIVE 0xE0
 #define WORDS_PER_SECTOR 256
