@@ -40,5 +40,13 @@ void terminal_initialize();
  */
 void terminal_putchar(char c, uint8_t color);
 
+/**
+ * Displays a string with the color white in the VGA terminal at the current cursor position.
+ * Handles newline characters by moving the cursor to the beginning of the next line.
+ * 
+ * @param string The string to display.
+*/
+void print(const char* string);
+
 
 #endif

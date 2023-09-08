@@ -2,7 +2,7 @@
 #include <kernel/memory/heap/kernel_heap.h>
 #include <kernel/config.h>
 #include <kernel/tty.h>
-#include <kernel/kernel.h>
+#include <kernel/tty.h>
 #include <kernel/memory/memory.h>
 
 struct heap kernel_heap;
@@ -39,5 +39,4 @@ void* kernel_zalloc(size_t size)
         return NULL;
     memset(ptr, 0, size);
     return ptr;
-    
 }

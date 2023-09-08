@@ -1,4 +1,3 @@
-#include <kernel/kernel.h>
 #include <kernel/idt.h>
 #include <kernel/tty.h>
 #include <kernel/io.h>
@@ -8,22 +7,6 @@
 #include <kernel/disk.h>
 #include <stdint.h>
 #include <stddef.h>
-
-size_t strlen(const char* str)
-{
-    size_t len;
-    for (len = 0; str[len]; len++);
-    return len;
-}
-
-void print(const char* str)
-{
-    size_t len = strlen(str);
-    for (size_t i = 0; i < len; i++)
-    {
-        terminal_putchar(str[i], 15);
-    }
-}
 
 static uint32_t* kernel_directory;
 
@@ -53,6 +36,4 @@ void kernel_main()
 
     enable_interrupts();
     print("Interrupts enabled.\n");
-
-
 }

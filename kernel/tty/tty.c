@@ -50,3 +50,19 @@ void terminal_putchar(char c, uint8_t color)
         }
 	}
 } 
+
+static size_t strlen(const char* str)   // TODO find a better place for strlen
+{
+    size_t len;
+    for (len = 0; str[len]; len++);
+    return len;
+}
+
+void print(const char* string)
+{
+    size_t len = strlen(string);
+    for (size_t i = 0; i < len; i++)
+    {
+        terminal_putchar(string[i], 15);
+    }
+}
