@@ -1,8 +1,8 @@
-#include "idt.h"
-#include "config.h"
-#include "memory/memory.h"
-#include "kernel.h"
-#include "io/io.h"
+#include <kernel/idt.h>
+#include <kernel/config.h>
+#include <kernel/memory/memory.h>
+#include <kernel/io.h>
+#include <kernel/tty.h>
 
 struct idt_descriptor idt[TOTAL_INTERRUPTS];
 struct idtr_descriptor idtr;

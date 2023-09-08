@@ -1,7 +1,7 @@
-#include "heap.h"
-#include "config.h"
-#include "status.h"
-#include "memory/memory.h"
+#include <kernel/memory/heap/heap.h>
+#include <kernel/config.h>
+#include <kernel/status.h>
+#include <kernel/memory/memory.h>
 
 /**
  * @brief Validates the alignment of a pointer within the heap.
