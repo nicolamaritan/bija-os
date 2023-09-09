@@ -3,6 +3,7 @@
         "stdint.h": "c",
         "config.h": "c",
         "status.h": "c",
-        "disk.h": "c"
+        "disk.h": "c",
+        "paging.h": "c"
     }
 }
