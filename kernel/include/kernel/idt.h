@@ -2,7 +2,7 @@
 #define IDT_H
 
 #include <stdint.h>
-
+#include <stddef.h>
 
 struct idt_descriptor
 {
@@ -22,5 +22,6 @@ struct idtr_descriptor
 void idt_init();
 void enable_interrupts();
 void disable_interrupts();
+void idt_set(size_t interrupt_number, void* address);
 
 #endif

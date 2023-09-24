@@ -5,6 +5,7 @@
 #include <kernel/memory/paging/paging.h>
 #include <kernel/memory/heap/kernel_heap.h>
 #include <kernel/disk.h>
+#include <kernel/keyboard.h>
 #include <stdint.h>
 #include <stddef.h>
 
@@ -26,6 +27,8 @@ void kernel_main()
     idt_init();
     pic_remap(OFFSET_MASTER_PIC, OFFSET_SLAVE_PIC);
     print("IDT initialized. PIC remapped.\n");
+
+    keyboard_init();
 
     char buf[512];
     for (size_t i; i<512; i++){buf[i] = i;}

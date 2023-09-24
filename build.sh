@@ -14,5 +14,6 @@ mkdir build/tty
 mkdir build/memory/heap
 mkdir build/memory/paging
 mkdir build/disk
+mkdir build/keyboard
 
 make all
