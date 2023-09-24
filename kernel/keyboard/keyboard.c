@@ -21,18 +21,17 @@ static char keyboard_to_ascii(uint8_t key)
 	{
 		return _num[key - ONE_PRESSED];
 	}
-
 	if(key >= Q_PRESSED && key <= P_PRESSED)
 	{
-		return _qwertyuiop[key - 0x10];
+		return _qwertyuiop[key - Q_OFFSET];
 	} 
 	else if(key >= A_PRESSED && key <= L_PRESSED)
 	{
-		return _asdfghjkl[key - 0x1E];
+		return _asdfghjkl[key - A_OFFSET];
 	} 
 	else if(key >= Z_PRESSED && key <= M_PRESSED)
 	{
-		return _zxcvbnm[key - 0x2C];
+		return _zxcvbnm[key - Z_OFFSET];
 	}
 	return 0;
 }
@@ -46,10 +45,10 @@ void keyboard_irq_handler()
     str[0] = keyboard_to_ascii(key);
     str[1] = 0;
     print(str);
-    pic_send_EOI(1);
+    pic_send_EOI(KEYBOARD_INTERRUPT_REQUEST);
 }
 
 void keyboard_init()
 {
-    idt_set(0x21, keyboard_irq);
+    idt_set(PIC1 + KEYBOARD_INTERRUPT_REQUEST, keyboard_irq);
 }

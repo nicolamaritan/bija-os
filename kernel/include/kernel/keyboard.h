@@ -1,6 +1,11 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
+#define KEYBOARD_INTERRUPT_REQUEST 0x01
+#define Q_OFFSET 0x10
+#define A_OFFSET 0x1E
+#define Z_OFFSET 0x2C
+
 enum KEYCODE {
 	NULL_KEY = 0,
 	Q_PRESSED = 0x10,
