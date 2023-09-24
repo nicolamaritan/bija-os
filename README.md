@@ -7,4 +7,11 @@ To build, run
 $ source build.sh
 ```
 # Debug
-To debug, use ```gdb```.
+To debug, use ```gdb```. As the kernel is loaded at address 0x100000, add the following lines at the beginning of your ```.gdbinit```:
+```
+add-symbol-file build/kernelfull.o 0x100000
+```
+To use QEMU, add
+```
+target remote | qemu-system-i386 -S -gdb stdio -hda bin/os.bin
+```
