@@ -12,8 +12,8 @@ bin/kernel.bin: $(FILES)
 	i686-elf-ld -g -relocatable $(FILES) -o build/kernelfull.o
 	i686-elf-gcc $(FLAGS) -T kernel/linker.ld -o bin/kernel.bin -ffreestanding -O0 -nostdlib build/kernelfull.o
 
-bin/boot.bin: kernel/boot/boot.asm
-	nasm -f bin kernel/boot/boot.asm -o bin/boot.bin
+bin/boot.bin: boot/boot.asm
+	nasm -f bin boot/boot.asm -o bin/boot.bin
 
 build/kernel.asm.o: kernel/kernel.asm
 	nasm -f elf -g kernel/kernel.asm -o build/kernel.asm.o
