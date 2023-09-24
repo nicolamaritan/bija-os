@@ -40,7 +40,7 @@ extern void keyboard_irq();
 
 void keyboard_irq_handler()
 {
-    uint8_t key = insb(0x60);
+    uint8_t key = insb(PS2_DATA_PORT);
     char str[2];
     str[0] = keyboard_to_ascii(key);
     str[1] = 0;

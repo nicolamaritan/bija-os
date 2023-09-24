@@ -1,6 +1,7 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
+#define PS2_DATA_PORT 0x60
 #define KEYBOARD_INTERRUPT_REQUEST 0x01
 #define Q_OFFSET 0x10
 #define A_OFFSET 0x1E
